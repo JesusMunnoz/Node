@@ -30,25 +30,3 @@ fs.access(path)
 .catch(err => {
     console.log("ERROR", err);
 })
-
-
-/*if(fs.exists(path)){
-    fs.unlinkSync(path);
-    console.log("borro porque existe");
-}*/
-
-/*fs.writeFile(path, JSON.stringify(persona), (err)=>{
-    if(err){
-        console.log(err.message);
-    }else{
-        
-        fs.readFile(path, 'utf-8', (err, data) => {
-            if (err) {
-                console.log(err.message);
-            }else{
-                let prsn = JSON.parse(data);
-                console.log(prsn);
-            }
-        });
-    }
-});*/

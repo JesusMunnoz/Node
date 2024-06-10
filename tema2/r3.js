@@ -9,8 +9,6 @@ function pregunta(pregunta) {
             output: process.stdout
         });
         rl.question(pregunta, (respuesta) => {
-            //resolve(respuesta);
-            //rl.close()
             if (pregunta){
                 resolve(respuesta)
             }else{
@@ -22,93 +20,42 @@ function pregunta(pregunta) {
     return question;
 }
 
-
-async function readwrite(){
+function readWrite(){
     let persona = {name: "", surname: "", age: ""};
-    let pathR3  = 'pathR3.json';
+    let pathR3 = 'pathR3.json';
 
-    try{
-        /*fs.existsSync(pathR3) 
-        .then(() => {
-            fs.unlinkSync(pathR3);
-            console.log("borro porque existe");
-        })*/
+    fs.access(pathR3)
+    .then(() => fs.unlink(pathR3))
 
-        if(fs.access(pathR3)){
-            await fs.unlink(pathR3)
-            console.log("borro porque existe");
-        }
+    .then (() =>{
+        return pregunta("What's your name? ");
+    })
 
-        
-        let answerN = await pregunta("What's your name? ");
+    .then ((answerN) =>{
         persona.name = answerN;
+        return pregunta("whats your surname? ")
+    })
 
-        let answerSN = await pregunta("What about your surname? ");
+    .then ((answerSN) =>{
         persona.surname = answerSN;
+        return pregunta("whats your age? ")
+    })
 
-        let answerAge = await pregunta(`And  your age Mr/Miss ${persona.surname},\n How old are you? `);
+    .then ((answerAge) =>{
         persona.age = parseInt(answerAge, 10);
 
-        console.log("linea 38");
         console.log(persona);
+        return fs.writeFile(pathR3, JSON.stringify(persona))
+    })
 
-        await fs.writeFile(pathR3, JSON.stringify(persona));
-        let personita = await fs.readFile(pathR3, 'utf-8')
-        console.log("linea 43");
+    .then(() => fs.readFile(pathR3, 'utf-8'))
+    .then((personita) => {
         console.log(JSON.parse(personita));
-    }
-    catch(error){
-        console.log(err.message);
-    }
+    })
 
-}
-
-readwrite();
-
-
-/*
-const { isUtf8 } = require('buffer');
-const fs = require('fs');
-
-const readline = require('readline');
-var rl = readline.createInterface(process.stdin, process.stdout);
-
-let persona = {name: "", surname: "", age: ""};
-let pathR3  = 'pathR3.json';
-
-if(fs.existsSync(pathR3)){
-    fs.unlinkSync(pathR3);
-    console.log("borro porque esxiste");
-}
-
-rl.question("What's your name? ", (answerN)=>{
-    persona.name = answerN;
-
-    rl.question("What about your surname? ", (answerSN)=>{
-        persona.surname = answerSN;
-    
-        rl.question(`And  your age Mr/Miss ${persona.surname},\n How old are you? `, (answerAge)=>{
-            persona.age = parseInt(answerAge, 10);
-            console.log("linea 23");
-            console.log(persona);
-
-            fs.writeFile(pathR3, JSON.stringify(persona), (err)=>{
-                if(err){
-                    console.log(err.message);
-                }else{
-                    fs.readFile(pathR3, 'utf-8', (err, data)=>{
-                        if(err){
-                            console.log(err.message);
-                        }else{
-                            let prsn = JSON.parse(data);
-                            console.log("linea 35");
-                            console.log(prsn);
-                            rl.close();
-                        }
-                    });
-                };
-            });
-        });
+    .catch((error) => {
+        console.log(error.message);
     });
-});
-*/
+}
+
+readWrite();
