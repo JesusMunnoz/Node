@@ -26,10 +26,10 @@ async function readwrite(){
 
     try{
         
-        if(fs.access(pathR3)){
+        /*if(fs.access(pathR3)){
             await fs.unlink(pathR3)
             console.log("borro porque existe");
-        }
+        }*/
 
         let answerN = await pregunta("What's your name? ");
         persona.name = answerN;
@@ -40,15 +40,14 @@ async function readwrite(){
         let answerAge = await pregunta(`And  your age Mr/Miss ${persona.surname},\n How old are you? `);
         persona.age = parseInt(answerAge, 10);
 
-        console.log("linea 38");
+        console.log("linea 43");
         console.log(persona);
 
         await fs.writeFile(pathR3, JSON.stringify(persona));
         let personita = await fs.readFile(pathR3, 'utf-8')
-        console.log("linea 43");
+        console.log("linea 48");
         console.log(JSON.parse(personita));
-    }
-    catch(error){
+    }catch(error){
         console.log(err.message);
     }
 
