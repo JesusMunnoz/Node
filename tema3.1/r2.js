@@ -1,4 +1,4 @@
-const Book = require("./src/models/book");
+const Book = require("../tema3/src/models/book");
 const express = require ("express")
 const cors = require("cors")
 const app = express()
