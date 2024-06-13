@@ -1,6 +1,6 @@
-const Book = require("./src/models/book");
+const Book = require("../models/book");
 
-//let mybk = new Book ("The Hobbit", "Kindle", "J.R.R. Tolkien", 10, "picture", 7, 1);
+//let mybk = new Book ("The Hobbit", "Kindle", "J.R.R. Tolkien", 10, "https://www.planetadelibros.com/usuaris/libros/fotos/357/original/portada_el-hobbit_j-r-r-tolkien_202207271130.jpg", 7, 1);
 
 let arrBooks = [];
 
