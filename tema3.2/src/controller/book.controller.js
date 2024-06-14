@@ -2,31 +2,32 @@ const Book = require("../models/book");
 
 //let mybk = new Book ("The Hobbit", "Kindle", "J.R.R. Tolkien", 10, "https://www.planetadelibros.com/usuaris/libros/fotos/357/original/portada_el-hobbit_j-r-r-tolkien_202207271130.jpg", 7, 1);
 
-let arrBooks = [];
+let bookDB = {}
 
 function getBook (req, res){
-    res.json(arrBooks);
+    let books = Object.values(bookDB);
+    res.json(books);
 };
 
 function createBook (req, res) {
     let {title, type, author, price, photo, id_book, id_user} = req.body;
     let newBook = new Book (title, type, author, price, photo, id_book, id_user);
-    arrBooks.push(newBook);
+    bookDB[newBook.id_book] = newBook;
     res.status(201).json(newBook);
 };
 
 function updateBook (req, res) {
     let {id} = req.params;
     let {title, type, author, price, photo} = req.body;
-    let bookIndex = arrBooks.findIndex(book => book.id_book == parseInt(id));
-    if(bookIndex != -1) {
-        arrBooks[bookIndex].title = title;
-        arrBooks[bookIndex].type = type;
-        arrBooks[bookIndex].author = author;
-        arrBooks[bookIndex].price = price;
-        arrBooks[bookIndex].photo = photo;
+    let book = bookDB[id];
+    if(book != -1) {
+        book.title = title;
+        book.type = type;
+        book.author = author;
+        book.price = price;
+        book.photo = photo;
 
-        res.json(arrBooks[bookIndex])
+        res.json(book)
     }else{
         res.status(404).json({message:"error, libro no encontrado"});
     }
@@ -34,11 +35,11 @@ function updateBook (req, res) {
 
 function deleteBook (req, res) {
     let {id} = req.params;
-    let bookIndex = arrBooks.findIndex(book => book.id_book == parseInt(id));
-    if (bookIndex != -1){
-        let deleteBook = arrBooks.splice(bookIndex, 1);
+    let book = bookDB[id];
+    if (book){
+        delete bookDB[id];
         
-        res.json(deleteBook[0]);
+        res.json(book);
     }else{
         res.status(404).json({message:"error, libro no encontrado"});
     }
