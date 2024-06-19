@@ -22,13 +22,6 @@ app.use(function(req, res, next)
                                 message: "endpoint not found"})
     })
 
-/*app.use((req, res, next) => {
-    res.status(404).json({error: true,
-        codigo: 404,
-        message: "Endpoint doesnt found"
-    });
-});*/
-
 app.use (errorHandling);
 
 module.exports = app;
