@@ -1,6 +1,7 @@
 const { Router } = require ("express")
 const router = Router();
 const booksCtrl = require("../controller/book.controller")
+const bookssCtrl = require("../controller/books.controller")
 
 router.get("/", booksCtrl.getBook);
 
@@ -8,7 +9,7 @@ router.post("/", booksCtrl.createBook);
 
 router.put("/:id", booksCtrl.updateBook);
 
-router.delete("/:id", booksCtrl.deleteBook);
+router.delete("/", booksCtrl.deleteBook); //router.delete("/:id", booksCtrl.deleteBook);
 
 module.exports = router;
 
