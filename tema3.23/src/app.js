@@ -1,6 +1,7 @@
 const express = require("express")
 const cors = require("cors")
-const booksRouter = require("./routers/book.routers")
+const bookRouter = require("./routers/book.routers")
+const booksRouter = require("./routers/books.routers")
 const errorHandling = require("./error/errorHandling")
 
 const app = express();
@@ -11,14 +12,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.use("/book", booksRouter);  
+app.use("/book", bookRouter);
+app.use("/books", booksRouter); 
 
-app.use((req, res, next) => {
+app.use(function(req, res, next)
+    {
+        res.status(404).json({error:true,
+                                codigo: 404,
+                                message: "endpoint not found"})
+    })
+
+/*app.use((req, res, next) => {
     res.status(404).json({error: true,
         codigo: 404,
         message: "Endpoint doesnt found"
     });
-});
+});*/
 
 app.use (errorHandling);
 
