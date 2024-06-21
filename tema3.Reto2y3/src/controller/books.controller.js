@@ -8,15 +8,24 @@ function getBooks (req, res){
 
 function createBooks (req, res) {
     let {title, type, author, price, photo, id_book, id_user} = req.body;
+
+    if(arrBooks.some(book => book.id_book === id_book)){
+        return res.status(400).json({message: "ya existe libro"})
+    }
+
     let newBook = new Book (title, type, author, price, photo, id_book, id_user);
     arrBooks.push(newBook);
     res.status(201).json(newBook);
 };
 
 function updateBooks (req, res) {
-    let {id} = req.params;
+    let {id_book, title, type, author, price, photo} = req.body;
+    let bookIndex = arrBooks.findIndex(book => book.id_book == id_book);
+
+    /*let {id} = req.params;
     let {title, type, author, price, photo} = req.body;
-    let bookIndex = arrBooks.findIndex(book => book.id_book == parseInt(id));
+    let bookIndex = arrBooks.findIndex(book => book.id_book == parseInt(id));*/
+
     if(bookIndex !== -1) {
         arrBooks[bookIndex].title = title;
         arrBooks[bookIndex].type = type;
@@ -31,8 +40,12 @@ function updateBooks (req, res) {
 };
 
 function deleteBooks (req, res) {
-    let {id} = req.params;
-    let bookIndex = arrBooks.findIndex(book => book.id_book == parseInt(id));
+    let {id_book} = req.body;
+    let bookIndex = arrBooks.findIndex(book => book.id_book == id_book);
+
+    /*let {id} = req.params;
+    let bookIndex = arrBooks.findIndex(book => book.id_book == parseInt(id));*/
+    
     if (bookIndex !== -1){
         let deleteBook = arrBooks.splice(bookIndex, 1);
         

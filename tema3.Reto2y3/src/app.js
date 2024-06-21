@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.use("/book", bookRouter);
-app.use("/books", booksRouter); 
+app.use("/", bookRouter);
+app.use("/", booksRouter); 
 
 app.use(function(req, res, next)
     {

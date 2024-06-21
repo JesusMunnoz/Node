@@ -20,10 +20,14 @@ function createBook (req, res) {
 };
 
 function updateBook (req, res) {
-    let {id} = req.params;
+    let {id_book, title, type, author, price, photo}=req.body;
+    let book = bookDB[id_book];
+
+    /*let {id} = req.params;
     let {title, type, author, price, photo} = req.body;
-    let book = bookDB[id];
-    if(book) {  //if(book != -1)
+    let book = bookDB[id];*/
+
+    if(book) {  
         book.title = title;
         book.type = type;
         book.author = author;
@@ -37,10 +41,14 @@ function updateBook (req, res) {
 };
 
 function deleteBook (req, res) {
-    bookDB = {};
+    let {id_book} = req.body;
 
-    res.json({message: "libro elimindo"})
-
+    if(bookDB[id_book]){
+        delete bookDB[id_book];
+        res.json({message: "libro elimindo"});
+    }else{
+        res.status(404).json({message: "error"})
+    }
 };
 
 module.exports = {getBook, createBook, updateBook, deleteBook}
